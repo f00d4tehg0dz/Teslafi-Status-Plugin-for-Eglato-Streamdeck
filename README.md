@@ -6,13 +6,13 @@ This an extension for the [ElGato-StreamDeck](https://www.elgato.com/en/gaming/s
 
 ## Screenshot
 
-![screencap.png](doc/screencap.PNG)
+![screencap.png](doc/screencap.png)
 
 Please report any issues you see on the project's Github page. I welcome any feedback.
 
 ## Installation
 
-Download from Release folder [Release Folder](Release/com.f00d4tehg0dz.teslafi.sdPlugin)
+Download from Release folder [Release Folder](Release/com.f00d4tehg0dz.teslafi.streamDeckPlugin)
 
 Double click to install to StreamDeck. 
 
