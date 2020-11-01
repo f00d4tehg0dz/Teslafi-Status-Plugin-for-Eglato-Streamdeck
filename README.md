@@ -16,11 +16,8 @@ Download from Release folder [Release Folder](Release/com.f00d4tehg0dz.teslafi.s
 
 Double click to install to StreamDeck. 
 
-Make sure you have an active subscription with [TeslaFi](https://teslafi.com) and enable your API key
-
 ## Ongoing work
 
-clean up the heck out of the codebase
 
 
 

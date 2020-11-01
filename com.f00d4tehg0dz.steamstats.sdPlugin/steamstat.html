@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>com.f00d4tehg0dz.steamstat</title>
+    <link rel="stylesheet" href="css/sdpi.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/common.js"></script>
+
+</head>
+
+<body>
+<div class="sdpi-wrapper">
+    <div type="checkbox" class="sdpi-item">
+        <div class="sdpi-dynamic-styles">Automatic Refresh </div>
+        <input class="sdpi-item-value" id="automaticRefresh" type="checkbox">
+        <label for="automaticRefresh"><span></span></label>
+    </div>
+    <div class="sdpi-item">
+        <button class="sdpi-item-value" id="updateButton">Update</button>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label">Instructions</div>
+        <details class="sdpi-item-value">
+            <p>First Row is Platform <br>
+            Second Row is Persistent Universe <br>
+            Third Row is Electronic Access </p>
+            <p>You can learn more about this plugin by visiting its Github
+                page by <a
+                        href="#"
+                        onclick="openGithub()">clicking here.</a>
+        </details>
+    </div>
+</div>
+
+<script>
+    let uuid = "",
+        actionName = "";
+
+    if ($SD) {
+        $SD.on('connected', function (jsonObj) {
+            uuid = jsonObj['uuid'];
+            if (jsonObj.hasOwnProperty('actionInfo')) {
+                actionName = jsonObj.actionInfo.action;
+            }
+            let settings = $SD.actionInfo.payload.settings;
+
+            if(settings.automaticRefresh){
+                $("#automaticRefresh").prop("checked",true);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+        $("#updateButton").click(function () {
+            // Sending the saved settings to the plugin from property inspector.
+
+            let automaticRefresh = $("#automaticRefresh").prop("checked");
+
+
+            if ($SD && $SD.connection) {
+                let payload = {};
+                payload.automaticRefresh = automaticRefresh;
+
+                $SD.api.sendToPlugin(uuid, actionName, payload);
+            }
+        });
+        function openGithub() {
+            $SD.api.openUrl($SD.actionInfo.context, "https://github.com/f00d4tehg0dz/steamstat-server-status-plugin-for-elgato-streamdeck")
+    }
+    });
+
+</script>
+
+</body>
+
+</html>
