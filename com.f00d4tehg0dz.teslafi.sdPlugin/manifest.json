@@ -1,0 +1,42 @@
+{
+  "Actions": [
+    {
+      "Icon": "icon",
+      "Name": "TeslaFi",
+      "States": [
+        {
+          "Image": "icon",
+          "TitleAlignment": "middle",
+          "FontSize": "9",
+          "ShowTitle": true
+        }
+      ],
+      "SupportedInMultiActions": false,
+      "Tooltip": "A TeslaFi plugin developed by Adrian Chrysanthou",
+      "UUID": "com.f00d4tehg0dz.teslafi.action"
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "Adrian Chrysanthou",
+  "CodePath": "index.html",
+  "Description": "A Tesla Fi plugin developed by Adrian Chrysanthou. You can find more information about this plugin at https://github.com/f00d4tehg0dz/teslafi-plugin-for-elgato-streamdeck/. Please report any issues you see on the project's Github page. I welcome any feedback.",
+  "Name": "TeslaFi",
+  "Icon": "icon",
+  "URL": "https://github.com/f00d4tehg0dz/teslafi-plugin-for-elgato-streamdeck",
+  "PropertyInspectorPath": "teslafi.html",
+  "Version": "2.3",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": 
+    {
+        "MinimumVersion" : "4.1"
+    }
+}
