@@ -67,60 +67,102 @@ if ($SD) {
 
     function resultCallback(result, context) {
         if (!result.hasOwnProperty("Object")) {
-                const json = JSON.stringify(result, null, 1);
-                const removeBracket = json.replace(/{/g, '').replace(/}/g, '');
-                const unquoted = removeBracket.replace(/\"/g, "");  
-                const comma = unquoted.replace(/,/g, "");   
+            
+            const json = JSON.stringify(result, null, 1);
+            const removeBracket = json.replace(/{/g, '').replace(/}/g, '');
+            const unquoted = removeBracket.replace(/\"/g, "");  
+            const comma = unquoted.replace(/,/g, "");   
 
-                // load bg-image
-                ctx = canvas.getContext("2d");
-                img = document.getElementById("bg");
-                ctx.drawImage(img, 0, 0);
+            // load bg-image
+            ctx = canvas.getContext("2d");
+            img = document.getElementById("bg");
+            ctx.drawImage(img, 0, 0);
 
-                // Remove spaces
-                comma.replace(/\s/g, "");   
-                // Split Lines
-                var lines = comma.split('\n');
-                
-                // Join Lines together
-                var arr = [ lines.shift(), lines.shift(), lines.shift(), lines.shift(), lines.join('')];
-               
-                //  // Remove first line in array
-                arr.splice(0, 1);   
-                // Build Canvas
-                ctx = canvas.getContext("2d");
-                if (arr[0].includes("Na")) {
-                    ctx.fillStyle = "#ffffff"; //white
-                    img = document.getElementById("car-icon");
+            // Remove spaces
+            comma.replace(/\s/g, "");   
+            // Split Lines
+            var lines = comma.split('\n');
+            
+            // Join Lines together
+            var arr = [ lines.shift(), lines.shift(), lines.shift(), lines.shift(), lines.join('')];
+            
+            //  // Remove first line in array
+            arr.splice(0, 1);   
+            // Build Canvas
+            ctx = canvas.getContext("2d");
+            if (arr[0].includes("Na")) {
+                ctx.fillStyle = "#ffffff"; //white
+                img = document.getElementById("car-icon");
+                if (arr[0].includes(null) || arr[0] == "None")
+                {
+                    ctx.drawImage(img, 10, 20);
+                    ctx.fillText("Bad Network", 20, 20);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                }
+                else {
                     ctx.drawImage(img, 10, 20);
                     ctx.fillText(arr[0], -30, 20);
-                } else {
-                    arr.splice(0, 3); 
-                    ctx.fillStyle = "#ffffff"; //white
-                }     
-                if (arr[1].includes("Ch")) {
-                    ctx.fillStyle = "#c7f464"; //green
-                    img = document.getElementById("charging-icon");
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                }
+                
+            } else {
+                arr.splice(0, 3); 
+                ctx.fillStyle = "#ffffff"; //white
+            }     
+            if (arr[1].includes("Ch")) {
+                ctx.fillStyle = "#c7f464"; //green
+                img = document.getElementById("charging-icon");
+                if (arr[0].includes(null) || arr[0] == "None")
+                {
+                    ctx.drawImage(img, 10, 110);
+                    ctx.fillText("Bad Network", 20, 110);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                }
+                else {
                     ctx.drawImage(img, 10, 110);
                     ctx.fillText(arr[1], -30, 110);
-                } else{
-                    arr.splice(0, 3); 
-                    ctx.fillStyle = "#ffffff"; //white
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
                 }
-                // Null the Title so Nothing Shows
+            } else{
+                arr.splice(0, 3); 
+                ctx.fillStyle = "#ffffff"; //white
                 $SD.api.setTitle(context, '', null);
                 $SD.api.setImage(
                     context,
                     block.getImageData()
                 );
-            return;
+            }
+        // Create Canvas Image
+            $SD.api.setTitle(context, '', null);
+            $SD.api.setImage(
+                context,
+                block.getImageData()
+            );
+        return;
         }
     }
 
     function getResults(settings, updateTitleFn) {
         let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
-         //let endPoint = 'test.json'
+        // let endPoint = 'test.json'
+        // $.getJSON(endPoint)
         $.getJSON(endPoint, {apikey: settings.apiKey})
             .done(function (response) {
                 updateTitleFn({
@@ -139,96 +181,152 @@ if ($SD) {
 
     function resultDistanceCallback(result, context) {
         if (!result.hasOwnProperty("Object")) {
-            if (result.battery_range == "null" || result.battery_range == "None"){
-                $SD.api.setTitle(context, 'Bad Connection from Car', null);
-            }
-            else {
-            
-                const json = JSON.stringify(result, null, 1);
 
-                ctx = canvas.getContext("2d");
-                var x = 20;
-                var y = 80;
-                // If the Celsius is selected by the user, then converting the displayed temperature and unit to Celsius.
-                // The default is F, which is 0. So, no need to touch anything if it is selected.
-                if (result.DistanceType == 1) {
-                    result.Distance = convertToKm(result.Distance);
-                    distanceTotal = result.Distance + "km";
-                    
-                    ctx.fillStyle = "#45b6fe"; //blue
-                    img = document.getElementById("distance-icon");
+            ctx = canvas.getContext("2d");
+            var x = 20;
+            var y = 80;
+
+            // If the Celsius is selected by the user, then converting the displayed temperature and unit to Celsius.
+            // The default is F, which is 0. So, no need to touch anything if it is selected.
+            if (result.DistanceType == 1) {
+                result.Distance = convertToKm(result.Distance);
+                distanceTotal = result.Distance + "km";
+                
+                ctx.fillStyle = "#45b6fe"; //blue
+                img = document.getElementById("distance-icon");
+                if (distanceTotal.includes(null) || distanceTotal.includes("None"))
+                {
                     ctx.drawImage(img, 10, 80);
-                    ctx.fillText(' ' + "Dist" + ' ' + distanceTotal, x, y);
-                }     else {
-                    distanceTotal = result.Distance + "mi";
-                    ctx.fillStyle = "#45b6fe"; //blue
-                    img = document.getElementById("distance-icon");
-                    ctx.drawImage(img, 10, 80);
-                    ctx.fillText(' ' + "Dist" + ' ' + distanceTotal, x, y);
-                    
+                    ctx.fillText("Bad Network", x, y);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
                 }
-               
-                }       
+                else {
+                    ctx.drawImage(img, 10, 80);
+                    ctx.fillText("Dist" + ' ' + distanceTotal, x, y);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                }
+
+            }     
+            else {
+                distanceTotal = result.Distance + "mi";
+                ctx.fillStyle = "#45b6fe"; //blue
+                img = document.getElementById("distance-icon");
+                if (distanceTotal.includes(null) || distanceTotal.includes("None"))
+                {
+                    ctx.drawImage(img, 10, 80);
+                    ctx.fillText("Bad Network", x, y);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                }
+                else {
+                    ctx.drawImage(img, 10, 80);
+                    ctx.fillText("Dist" + ' ' + distanceTotal, x, y);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                }
+            }
             
-                // Null the Title so Nothing Shows
-                $SD.api.setTitle(context, '', null);
-                $SD.api.setImage(
-                    context,
-                    block.getImageData()
-                );
-            return;
-        }
+            }       
+        
+            // Create Canvas Image
+            $SD.api.setTitle(context, '', null);
+            $SD.api.setImage(
+                context,
+                block.getImageData()
+            );
+        return;
+    
     }
 
 
     function resultDegreeCallback(result, context) {
         if (!result.hasOwnProperty("Object")) {
-            if (result.inside_tempF == "null" || result.inside_tempF == "None"){
-                $SD.api.setTitle(context, 'Bad Connection from Car', null);
-            }
-            else {
-            
-                const json = JSON.stringify(result, null, 1);
-            
-                ctx = canvas.getContext("2d");
-                var x = 20;
-                var y = 50;
-                // If the Celsius is selected by the user, then converting the displayed temperature and unit to Celsius.
-                // The default is F, which is 0. So, no need to touch anything if it is selected.
-                if (result.DegreeType == 1) {
-                    result.Temp = convertToCelsius(result.Temp);
-                    degreeTotal = result.Temp + "C";
-                    ctx.fillStyle = "#ff6b6b"; //red
-                    img = document.getElementById("temperature-icon");
+            ctx = canvas.getContext("2d");
+            var x = 20;
+            var y = 50;
+            // If the Celsius is selected by the user, then converting the displayed temperature and unit to Celsius.
+            // The default is F, which is 0. So, no need to touch anything if it is selected.
+            if (result.DegreeType == 1) {
+                result.Temp = convertToCelsius(result.Temp);
+                degreeTotal = result.Temp + "C";
+                ctx.fillStyle = "#ff6b6b"; //red
+                img = document.getElementById("temperature-icon");
+                if (degreeTotal.includes(null) || degreeTotal.includes("None"))
+                {
+                    ctx.drawImage(img, 10, 50);
+                    ctx.fillText("Bad Network", x, y);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                } 
+                else {
                     ctx.drawImage(img, 10, 50);
                     ctx.fillText("Temp" + ' ' + degreeTotal, x, y);
-                }     else {
-                    degreeTotal = result.Temp + "F";
-                    ctx.fillStyle = "#ff6b6b"; //red
-                    img = document.getElementById("temperature-icon");
-                    ctx.drawImage(img, 10, 50);
-                    ctx.fillText("Temp" + ' ' + degreeTotal, x, y);
-                    
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
                 }
-             
-                
-               
-                }       
+            }     
+            else {
+                degreeTotal = result.Temp + "F";
+                ctx.fillStyle = "#ff6b6b"; //red
+                img = document.getElementById("temperature-icon");
+                if (degreeTotal.includes(null) || degreeTotal.includes("None"))
+                {
+                    ctx.drawImage(img, 10, 50);
+                    ctx.fillText("Bad Network", x, y);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                } 
+                else {
+                    ctx.drawImage(img, 10, 50);
+                    ctx.fillText("Temp" + ' ' + degreeTotal, x, y);
+                    $SD.api.setTitle(context, '', null);
+                    $SD.api.setImage(
+                        context,
+                        block.getImageData()
+                    );
+                }
+            }
             
-                // Null the Title so Nothing Shows
-                $SD.api.setTitle(context, '', null);
-                $SD.api.setImage(
-                    context,
-                    block.getImageData()
-                );
-            return;
-        }
+            }       
+        
+            // Create Canvas Image
+            $SD.api.setTitle(context, '', null);
+            $SD.api.setImage(
+                context,
+                block.getImageData()
+            );
+        return;
+        
     }
     function getDegreeResults(settings, updateDegree) {
         let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
-        //  let endPoint = 'test.json'
-        $.getJSON(endPoint, {apikey: settings.apiKey})
+        // let endPoint = 'test.json'    
+       $.getJSON(endPoint, {apikey: settings.apiKey})
+        // $.getJSON(endPoint)
             .done(function (response) {
                 updateDegree({
                     "DegreeType":settings.degreeType,
@@ -247,14 +345,14 @@ if ($SD) {
     function getDistanceResults(settings, updateDistance) {
         let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
-         //let endPoint = 'test.json'
+        //  let endPoint = 'test.json'
+        //  $.getJSON(endPoint)
         $.getJSON(endPoint, {apikey: settings.apiKey})
             .done(function (response) {
                 updateDistance({
                     "DistanceType":settings.distanceType,
                     "Distance": response.battery_range,
                 });
-            
                 
             })
             .fail(function (jqxhr, textStatus, error) {
