@@ -90,13 +90,38 @@ if ($SD) {
             arr.splice(0, 1);   
             // Build Canvas
             ctx = canvas.getContext("2d");
+            // Handle Line Breaks
+            var BadConn = 'Poor\nConnection\nOr\nAPI Rate\nLimit';
+            var lineheight = 20;
+            var lines = BadConn.split('\n');
+            var x = 72;
+            var y = 35;
+            if (arr[0] == undefined) {
+                ctx.font = 'bold 20px Arial';
+                ctx.fillStyle = "white";
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.drawImage(img, 144, 144);
+                for (var i = 0; i<lines.length; i++)
+                    ctx.fillText(lines[i], x, y + (i*lineheight) );
+                $SD.api.setTitle(context, '', null);
+                $SD.api.setImage(
+                    context,
+                    block.getImageData()
+                );
+            }
             if (arr[0].includes("Na")) {
                 ctx.fillStyle = "#ffffff"; //white
                 img = document.getElementById("car-icon");
                 if (arr[0].includes(null) || arr[0] == "None")
                 {
-                    ctx.drawImage(img, 10, 20);
-                    ctx.fillText("Bad Network", 20, 20);
+                    ctx.font = 'bold 20px Arial';
+                    ctx.fillStyle = "white";
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.drawImage(img, 144, 144);
+                    for (var i = 0; i<lines.length; i++)
+                        ctx.fillText(lines[i], x, y + (i*lineheight) );
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
                         context,
@@ -122,8 +147,13 @@ if ($SD) {
                 img = document.getElementById("charging-icon");
                 if (arr[0].includes(null) || arr[0] == "None")
                 {
-                    ctx.drawImage(img, 10, 110);
-                    ctx.fillText("Bad Network", 20, 110);
+                    ctx.font = 'bold 20px Arial';
+                    ctx.fillStyle = "white";
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.drawImage(img, 144, 144);
+                    for (var i = 0; i<lines.length; i++)
+                        ctx.fillText(lines[i], x, y + (i*lineheight) );
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
                         context,
@@ -196,8 +226,6 @@ if ($SD) {
                 img = document.getElementById("distance-icon");
                 if (distanceTotal.includes(null) || distanceTotal.includes("None"))
                 {
-                    ctx.drawImage(img, 10, 80);
-                    ctx.fillText("Bad Network", x, y);
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
                         context,
@@ -221,8 +249,6 @@ if ($SD) {
                 img = document.getElementById("distance-icon");
                 if (distanceTotal.includes(null) || distanceTotal.includes("None"))
                 {
-                    ctx.drawImage(img, 10, 80);
-                    ctx.fillText("Bad Network", x, y);
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
                         context,
@@ -265,10 +291,8 @@ if ($SD) {
                 degreeTotal = result.Temp + "C";
                 ctx.fillStyle = "#ff6b6b"; //red
                 img = document.getElementById("temperature-icon");
-                if (degreeTotal.includes(null) || degreeTotal.includes("None"))
+                if (degreeTotal.includes("None"))
                 {
-                    ctx.drawImage(img, 10, 50);
-                    ctx.fillText("Bad Network", x, y);
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
                         context,
@@ -289,10 +313,8 @@ if ($SD) {
                 degreeTotal = result.Temp + "F";
                 ctx.fillStyle = "#ff6b6b"; //red
                 img = document.getElementById("temperature-icon");
-                if (degreeTotal.includes(null) || degreeTotal.includes("None"))
+                if (degreeTotal.includes("None"))
                 {
-                    ctx.drawImage(img, 10, 50);
-                    ctx.fillText("Bad Network", x, y);
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
                         context,
@@ -324,9 +346,9 @@ if ($SD) {
     function getDegreeResults(settings, updateDegree) {
         let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
-        // let endPoint = 'test.json'    
+        //let endPoint = 'test.json'    
        $.getJSON(endPoint, {apikey: settings.apiKey})
-        // $.getJSON(endPoint)
+        //$.getJSON(endPoint)
             .done(function (response) {
                 updateDegree({
                     "DegreeType":settings.degreeType,
@@ -345,7 +367,7 @@ if ($SD) {
     function getDistanceResults(settings, updateDistance) {
         let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
-        //  let endPoint = 'test.json'
+         //let endPoint = 'test.json'
         //  $.getJSON(endPoint)
         $.getJSON(endPoint, {apikey: settings.apiKey})
             .done(function (response) {
