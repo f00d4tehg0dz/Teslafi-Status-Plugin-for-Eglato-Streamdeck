@@ -55,7 +55,7 @@ if ($SD) {
                 Object.assign(clonedSettings, settings);
                 setTitleWithTeslaFiStatus(context, clonedSettings);
             },
-            moment.duration(1, 'hours').asMilliseconds());
+            moment.duration(15, 'minutes').asMilliseconds());
     }
 
     function setTitleWithTeslaFiStatus(context, settings) {
@@ -72,6 +72,13 @@ if ($SD) {
             const removeBracket = json.replace(/{/g, '').replace(/}/g, '');
             const unquoted = removeBracket.replace(/\"/g, "");  
             const comma = unquoted.replace(/,/g, "");   
+
+            function clearCanvas(context, canvas) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                var w = canvas.width;
+                canvas.width = 1;
+                canvas.width = w;
+              }
 
             // load bg-image
             ctx = canvas.getContext("2d");
@@ -102,6 +109,9 @@ if ($SD) {
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.drawImage(img, 144, 144);
+                
+                // Create Canvas Image
+                clearCanvas(context, canvas)
                 for (var i = 0; i<lines.length; i++)
                     ctx.fillText(lines[i], x, y + (i*lineheight) );
                 $SD.api.setTitle(context, '', null);
