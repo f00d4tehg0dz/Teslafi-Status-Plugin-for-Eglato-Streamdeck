@@ -12,21 +12,21 @@
         }
       ],
       "SupportedInMultiActions": false,
-      "Tooltip": "A TeslaFi plugin developed by Adrian Chrysanthou",
+      "Tooltip": "A TeslaFi plugin developed by f00d4tehg0dz",
       "UUID": "com.f00d4tehg0dz.teslafi.action"
     }
   ],
   "SDKVersion": 2,
-  "Author": "Adrian Chrysanthou",
-  "Category": "Tesla [f00d4tehg0dz]",
+  "Author": "f00d4tehg0dz",
+  "Category": "Tesla",
   "CategoryIcon": "icons/category-icon",
   "CodePath": "index.html",
-  "Description": "A Tesla Fi plugin developed by Adrian Chrysanthou. You can find more information about this plugin at https://github.com/f00d4tehg0dz/Teslafi-Status-Plugin-for-Eglato-Streamdeck. Please report any issues you see on the project's Github page. I welcome any feedback.",
+  "Description": "A Tesla Fi plugin developed by f00d4tehg0dz. You can find more information about this plugin at https://github.com/f00d4tehg0dz/Teslafi-Status-Plugin-for-Eglato-Streamdeck. Please report any issues you see on the project's Github page. I welcome any feedback.",
   "Name": "TeslaFi",
   "Icon": "icon",
   "URL": "https://github.com/f00d4tehg0dz/Teslafi-Status-Plugin-for-Eglato-Streamdeck",
   "PropertyInspectorPath": "teslafi.html",
-  "Version": "2.4",
+  "Version": "2.5",
   "OS": [
     {
       "Platform": "mac",
