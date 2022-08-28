@@ -10,6 +10,7 @@ if ($SD) {
 
     $SD.on(actionName + ".willAppear", function (jsonObj) {
         let settings = jsonObj.payload.settings;
+        //initiateTeslaFiStatus(jsonObj.context, jsonObj.payload.settings);
         if(settings.automaticRefresh &&
             settings.apiKey && settings.distanceType && settings.degreeType){
             initiateTeslaFiStatus(jsonObj.context, jsonObj.payload.settings);
@@ -301,7 +302,7 @@ if ($SD) {
                 degreeTotal = result.Temp + "C";
                 ctx.fillStyle = "#ff6b6b"; //red
                 img = document.getElementById("temperature-icon");
-                if (degreeTotal.includes("None"))
+                if (degreeTotal.includes(null) || degreeTotal.includes("None"))
                 {
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
@@ -323,7 +324,7 @@ if ($SD) {
                 degreeTotal = result.Temp + "F";
                 ctx.fillStyle = "#ff6b6b"; //red
                 img = document.getElementById("temperature-icon");
-                if (degreeTotal.includes("None"))
+                if (degreeTotal.includes(null) || degreeTotal.includes("None"))
                 {
                     $SD.api.setTitle(context, '', null);
                     $SD.api.setImage(
