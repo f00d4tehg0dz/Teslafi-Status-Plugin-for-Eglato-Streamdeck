@@ -376,7 +376,7 @@ if ($SD) {
     }
 
     function getDistanceResults(settings, updateDistance) {
-        let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
+        let endPoint = "https://www.teslafi.com/feed.php?encode=1&token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
          //let endPoint = 'test.json'
         //  $.getJSON(endPoint)
