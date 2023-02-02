@@ -200,7 +200,7 @@ if ($SD) {
     }
 
     function getResults(settings, updateTitleFn) {
-        let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
+        let endPoint = "https://www.teslafi.com/feed.php?command=lastGood&encode=1&token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
         // let endPoint = 'test.json'
         // $.getJSON(endPoint)
@@ -355,7 +355,7 @@ if ($SD) {
         
     }
     function getDegreeResults(settings, updateDegree) {
-        let endPoint = "https://www.teslafi.com/feed.php?token={tokenhere}"
+        let endPoint = "https://www.teslafi.com/feed.php?command=lastGood&encode=1&token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
         //let endPoint = 'test.json'    
        $.getJSON(endPoint, {apikey: settings.apiKey})
@@ -376,7 +376,7 @@ if ($SD) {
     }
 
     function getDistanceResults(settings, updateDistance) {
-        let endPoint = "https://www.teslafi.com/feed.php?encode=1&token={tokenhere}"
+        let endPoint = "https://www.teslafi.com/feed.php?command=lastGood&encode=1&token={tokenhere}"
             .replace("{tokenhere}", settings.apiKey);
          //let endPoint = 'test.json'
         //  $.getJSON(endPoint)
