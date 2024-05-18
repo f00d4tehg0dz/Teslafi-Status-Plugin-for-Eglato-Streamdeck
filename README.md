@@ -12,7 +12,7 @@ Please report any issues you see on the project's Github page. I welcome any fee
 
 ## Features
 
-- **Customizable Display:** Choose which 5 fields to display on the Stream Deck from options including Car Name, Inside Temp, Battery Range, Charging State, Outside Temp, and Odometer.
+- **Customizable Display:** Choose which 5 fields to display on the Stream Deck from options including Car Name, Inside Temp, Battery Range, Charging State, Outside Temp, Odometer, and Estimated Range.
 - **Real-Time Updates:** Automatically refresh data every 20 minutes to keep your display current.
 - **Unit Conversions:** Select temperature unit (Fahrenheit/Celsius) and distance unit (Miles/Kilometers) based on your preference.
 - **Error Handling:** Displays an API limit error message when the majority of values return as `N/A`, indicating the need to wait for 5 minutes to clear the limit.
@@ -39,6 +39,7 @@ Make sure you have an active subscription with [TeslaFi](https://teslafi.com) an
    4. **Charging State:** Display the current charging state.
    5. **Outside Temp:** Display the current outside temperature.
    6. **Odometer:** Display the current odometer.
+   7. **Estimated Range:** Display the estimated range.
 
 ## Localization
 

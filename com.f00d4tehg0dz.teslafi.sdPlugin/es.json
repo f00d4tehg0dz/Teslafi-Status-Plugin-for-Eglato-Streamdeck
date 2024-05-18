@@ -16,7 +16,8 @@
         "battery_range": "Rango de Batería",
         "charging_state": "Estado de Carga",
         "outside_temp": "Temperatura Exterior",
-        "odometer": "Odómetro"
+        "odometer": "Odómetro",
+        "est_battery_range": "Rango de Batería Estimado"
     },
     "instructions_label": "Instrucciones",
     "instructions_text": "Puede aprender más sobre este plugin y cómo obtener una clave API visitando su página de Github ",

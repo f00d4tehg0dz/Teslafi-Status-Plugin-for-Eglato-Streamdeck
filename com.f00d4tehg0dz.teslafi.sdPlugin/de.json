@@ -16,7 +16,8 @@
         "battery_range": "Batteriereichweite",
         "charging_state": "Ladestatus",
         "outside_temp": "Außentemperatur",
-        "odometer": "Kilometerzähler"
+        "odometer": "Kilometerzähler",
+        "est_battery_range": "Geschätzte Batteriereichweite"
     },
     "instructions_label": "Anweisungen",
     "instructions_text": "Sie können mehr über dieses Plugin und wie Sie einen API-Schlüssel erhalten, auf der Github-Seite erfahren, indem Sie ",

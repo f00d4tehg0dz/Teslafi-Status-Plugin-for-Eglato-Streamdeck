@@ -9,13 +9,15 @@
     "field_2_label": "Field 2",
     "field_3_label": "Field 3",
     "field_4_label": "Field 4",
+    "field_5_label": "Field 5",
     "field_options": {
         "display_name": "Car Name",
         "inside_temp": "Inside Temp",
         "battery_range": "Battery Range",
         "charging_state": "Charging State",
         "outside_temp": "Outside Temp",
-        "odometer": "Odometer"
+        "odometer": "Odometer",
+        "est_battery_range": "Est. Battery Range"
     },
     "instructions_label": "Instructions",
     "instructions_text": "You can learn more about this plugin and how to obtain an API key by visiting its Github page by ",
