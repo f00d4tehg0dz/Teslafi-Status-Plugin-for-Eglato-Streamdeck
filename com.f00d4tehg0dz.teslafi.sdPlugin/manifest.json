@@ -1,32 +1,32 @@
 {
   "Actions": [
     {
-      "Icon": "icon",
+      "Icon": "actions/template/assets/actionimage",
       "Name": "TeslaFi",
       "States": [
         {
-          "Image": "icon",
+          "Image": "actions/template/assets/action",
           "TitleAlignment": "middle",
           "FontSize": "9",
           "ShowTitle": true
         }
       ],
       "SupportedInMultiActions": false,
-      "Tooltip": "A TeslaFi plugin developed by f00d4tehg0dz",
+      "Tooltip": "Install me and insert your TeslaFI API Key",
       "UUID": "com.f00d4tehg0dz.teslafi.action"
     }
   ],
   "SDKVersion": 2,
   "Author": "f00d4tehg0dz",
-  "Category": "Tesla",
-  "CategoryIcon": "icons/category-icon",
+  "Category": "TeslaFi",
+  "CategoryIcon": "actions/template/assets/category",
   "CodePath": "index.html",
-  "Description": "A Tesla Fi plugin developed by f00d4tehg0dz. You can find more information about this plugin at https://github.com/f00d4tehg0dz/Teslafi-Status-Plugin-for-Eglato-Streamdeck. Please report any issues you see on the project's Github page. I welcome any feedback.",
+  "Description": "The TeslaFi Plugin for the Elgato Stream Deck offers a powerful and customizable way to monitor your Tesla's vital stats at a glance. Stay informed with real-time updates on your car's status, including temperature, battery range, charging state, and more. Choose which four fields to display, ensuring you have the most relevant information right at your fingertips.",
   "Name": "TeslaFi",
-  "Icon": "icon",
+  "Icon": "actions/template/assets/action",
   "URL": "https://github.com/f00d4tehg0dz/Teslafi-Status-Plugin-for-Eglato-Streamdeck",
   "PropertyInspectorPath": "teslafi.html",
-  "Version": "2.6",
+  "Version": "4.1",
   "OS": [
     {
       "Platform": "mac",

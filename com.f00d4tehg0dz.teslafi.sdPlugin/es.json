@@ -1,0 +1,25 @@
+{
+    "title": "Plugin TeslaFi",
+    "api_key_label": "Clave API de TeslaFI",
+    "api_key_required_message": "Se requiere API. Por favor, consulte las instrucciones para saber cómo obtenerlo.",
+    "automatic_refresh_label": "Actualización Automática",
+    "temperature_unit_label": "Unidad de Temperatura",
+    "distance_unit_label": "Unidad de Distancia",
+    "field_1_label": "Campo 1",
+    "field_2_label": "Campo 2",
+    "field_3_label": "Campo 3",
+    "field_4_label": "Campo 4",
+    "field_5_label": "Campo 5",
+    "field_options": {
+        "display_name": "Nombre del Coche",
+        "inside_temp": "Temperatura Interior",
+        "battery_range": "Rango de Batería",
+        "charging_state": "Estado de Carga",
+        "outside_temp": "Temperatura Exterior",
+        "odometer": "Odómetro"
+    },
+    "instructions_label": "Instrucciones",
+    "instructions_text": "Puede aprender más sobre este plugin y cómo obtener una clave API visitando su página de Github ",
+    "instructions_link_text": "haciendo clic aquí.",
+    "update_button_text": "Actualizar"
+}

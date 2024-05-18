@@ -1,0 +1,25 @@
+{
+    "title": "TeslaFi Plugin",
+    "api_key_label": "TeslaFI API-Schlüssel",
+    "api_key_required_message": "API ist erforderlich. Bitte lesen Sie die Anweisungen, um zu erfahren, wie Sie ihn erhalten können.",
+    "automatic_refresh_label": "Automatische Aktualisierung",
+    "temperature_unit_label": "Temperatureinheit",
+    "distance_unit_label": "Entfernungseinheit",
+    "field_1_label": "Feld 1",
+    "field_2_label": "Feld 2",
+    "field_3_label": "Feld 3",
+    "field_4_label": "Feld 4",
+    "field_5_label": "Feld 5",
+    "field_options": {
+        "display_name": "Autoname",
+        "inside_temp": "Innere Temperatur",
+        "battery_range": "Batteriereichweite",
+        "charging_state": "Ladestatus",
+        "outside_temp": "Außentemperatur",
+        "odometer": "Kilometerzähler"
+    },
+    "instructions_label": "Anweisungen",
+    "instructions_text": "Sie können mehr über dieses Plugin und wie Sie einen API-Schlüssel erhalten, auf der Github-Seite erfahren, indem Sie ",
+    "instructions_link_text": "hier klicken.",
+    "update_button_text": "Aktualisieren"
+}

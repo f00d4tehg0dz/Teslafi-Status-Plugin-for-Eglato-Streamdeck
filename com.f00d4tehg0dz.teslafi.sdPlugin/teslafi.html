@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8"/>
-    <title>com.f00d4tehg0dz.teslafi</title>
+    <title id="title">TeslaFi Plugin</title>
     <link rel="stylesheet" href="css/sdpi.css">
     <script src="js/jquery-3.3.1.js"></script>
     <script src="js/common.js"></script>
@@ -12,40 +12,92 @@
 <body>
 <div class="sdpi-wrapper">
     <div class="sdpi-item">
-        <div class="sdpi-item-label">TeslaFI API Key</div>
+        <div class="sdpi-item-label" id="apiKeyLabel">TeslaFI API Key</div>
         <input class="sdpi-item-value" id="apiKey" required>
     </div>
     <div class="sdpi-item" id="apiKeyValidationMessage" style="display: none">
         <details class="message caution">
-            <summary>API is required. Please check the instructions to see how you can obtain it.</summary>
+            <summary id="apiKeyRequiredMessage">API is required. Please check the instructions to see how you can obtain it.</summary>
         </details>
     </div>
     <div type="checkbox" class="sdpi-item">
-        <div class="sdpi-item-label">Automatic Refresh </div>
+        <div class="sdpi-item-label" id="automaticRefreshLabel">Automatic Refresh </div>
         <input class="sdpi-item-value" id="automaticRefresh" type="checkbox">
         <label for="automaticRefresh"><span></span></label>
     </div>
     <div class="sdpi-item">
-        <div class="sdpi-item-label">Temperature Unit</div>
+        <div class="sdpi-item-label" id="temperatureUnitLabel">Temperature Unit</div>
         <select class="sdpi-item-value select" id="degreeType">
             <option value="0">F</option>
             <option value="1">C</option>
         </select>
     </div>
     <div class="sdpi-item">
-        <div class="sdpi-item-label">Distance Unit</div>
+        <div class="sdpi-item-label" id="distanceUnitLabel">Distance Unit</div>
         <select class="sdpi-item-value select" id="distanceType">
             <option value="0">Mi</option>
             <option value="1">Km</option>
         </select>
     </div>
     <div class="sdpi-item">
-        <div class="sdpi-item-label">Instructions</div>
+        <div class="sdpi-item-label" id="field1Label">Field 1</div>
+        <select class="sdpi-item-value select" id="field1">
+            <option value="display_name">Car Name</option>
+            <option value="inside_temp">Inside Temp</option>
+            <option value="battery_range">Battery Range</option>
+            <option value="charging_state">Charging State</option>
+            <option value="outside_temp">Outside Temp</option>
+            <option value="odometer">Odometer</option>
+        </select>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label" id="field2Label">Field 2</div>
+        <select class="sdpi-item-value select" id="field2">
+            <option value="display_name">Car Name</option>
+            <option value="inside_temp">Inside Temp</option>
+            <option value="battery_range">Battery Range</option>
+            <option value="charging_state">Charging State</option>
+            <option value="outside_temp">Outside Temp</option>
+            <option value="odometer">Odometer</option>
+        </select>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label" id="field3Label">Field 3</div>
+        <select class="sdpi-item-value select" id="field3">
+            <option value="display_name">Car Name</option>
+            <option value="inside_temp">Inside Temp</option>
+            <option value="battery_range">Battery Range</option>
+            <option value="charging_state">Charging State</option>
+            <option value="outside_temp">Outside Temp</option>
+            <option value="odometer">Odometer</option>
+        </select>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label" id="field4Label">Field 4</div>
+        <select class="sdpi-item-value select" id="field4">
+            <option value="display_name">Car Name</option>
+            <option value="inside_temp">Inside Temp</option>
+            <option value="battery_range">Battery Range</option>
+            <option value="charging_state">Charging State</option>
+            <option value="outside_temp">Outside Temp</option>
+            <option value="odometer">Odometer</option>
+        </select>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label" id="field5Label">Field 5</div>
+        <select class="sdpi-item-value select" id="field5">
+            <option value="display_name">Car Name</option>
+            <option value="inside_temp">Inside Temp</option>
+            <option value="battery_range">Battery Range</option>
+            <option value="charging_state">Charging State</option>
+            <option value="outside_temp">Outside Temp</option>
+            <option value="odometer">Odometer</option>
+        </select>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label" id="instructionsLabel">Instructions</div>
         <details class="sdpi-item-value">
-            <p>You can learn more about this plugin and how to obtain an API key by visiting its Github
-                page by <a
-                        href="#"
-                        onclick="openGithub()">clicking here.</a>
+            <p id="instructionsText">You can learn more about this plugin and how to obtain an API key by visiting its Github page by <a href="#" onclick="openGithub()">clicking here.</a></p>
         </details>
     </div>
     <div class="sdpi-item">
@@ -54,40 +106,63 @@
 </div>
 
 <script>
-    let uuid = "",
-        actionName = "";
+    let uuid = "", actionName = "";
 
-    if ($SD) {
-        $SD.on('connected', function (jsonObj) {
-            uuid = jsonObj['uuid'];
-            if (jsonObj.hasOwnProperty('actionInfo')) {
-                actionName = jsonObj.actionInfo.action;
-            }
-            let settings = $SD.actionInfo.payload.settings;
-
-            if (settings.apiKey) {
-                $("#apiKey").val(settings.apiKey);
-            }
-
-            if (settings.degreeType) {
-                $("#degreeType option[value=" + settings.degreeType + "]")
-                    .prop("selected", "selected").change();
-            }
-
-            if(settings.automaticRefresh){
-                $("#automaticRefresh").prop("checked",true);
-            }
-        });
-    }
-
-    function isUSSelected() {
-        let countryCode = $("#countryCode").val();
-        return countryCode.toLowerCase() === "us";
-    }
+    $.getJSON("en.json", function(data) {
+        $("#title").text(data.title);
+        $("#apiKeyLabel").text(data.api_key_label);
+        $("#apiKeyRequiredMessage").text(data.api_key_required_message);
+        $("#automaticRefreshLabel").text(data.automatic_refresh_label);
+        $("#temperatureUnitLabel").text(data.temperature_unit_label);
+        $("#distanceUnitLabel").text(data.distance_unit_label);
+        $("#field1Label").text(data.field_1_label);
+        $("#field2Label").text(data.field_2_label);
+        $("#field3Label").text(data.field_3_label);
+        $("#field4Label").text(data.field_4_label);
+        $("#field5Label").text(data.field_5_label);
+        $("#instructionsLabel").text(data.instructions_label);
+        $("#instructionsText").html(`${data.instructions_text}<a href="#" onclick="openGithub()">${data.instructions_link_text}</a>`);
+        const fieldOptions = data.field_options;
+        for (const [key, value] of Object.entries(fieldOptions)) {
+            $(`#field1 option[value=${key}]`).text(value);
+            $(`#field2 option[value=${key}]`).text(value);
+            $(`#field3 option[value=${key}]`).text(value);
+            $(`#field4 option[value=${key}]`).text(value);
+            $(`#field5 option[value=${key}]`).text(value);
+        }
+        $("#updateButton").text(data.update_button_text);
+    });
 
     $(document).ready(function () {
+        if ($SD) {
+            $SD.on('connected', function (jsonObj) {
+                uuid = jsonObj.uuid;
+                if (jsonObj.hasOwnProperty('actionInfo')) {
+                    actionName = jsonObj.actionInfo.action;
+                }
+                const settings = jsonObj.actionInfo.payload.settings;
 
-
+                if (settings.apiKey) {
+                    $("#apiKey").val(settings.apiKey);
+                }
+                if (settings.degreeType) {
+                    $("#degreeType").val(settings.degreeType);
+                }
+                if (settings.distanceType) {
+                    $("#distanceType").val(settings.distanceType);
+                }
+                if (settings.automaticRefresh) {
+                    $("#automaticRefresh").prop("checked", true);
+                }
+                if (settings.fields) {
+                    $("#field1").val(settings.fields[0]);
+                    $("#field2").val(settings.fields[1]);
+                    $("#field3").val(settings.fields[2]);
+                    $("#field4").val(settings.fields[3]);
+                    $("#field5").val(settings.fields[4]);
+                }
+            });
+        }
 
         $("#apiKey").on("blur", function () {
             if (!$("#apiKey").val()) {
@@ -97,41 +172,32 @@
             }
         });
 
-
-
-
         $("#updateButton").click(function () {
-            // Sending the saved settings to the plugin from property inspector.
-            let apiKey = $("#apiKey").val();
+            if (!$("#apiKey").val()) return;
 
-
-            let automaticRefresh = $("#automaticRefresh").prop("checked");
-
-
-
-            if (!$("#apiKey").val()) {
-                return;
-            }
+            const payload = {
+                apiKey: $("#apiKey").val(),
+                automaticRefresh: $("#automaticRefresh").prop("checked"),
+                degreeType: parseInt($("#degreeType").val()),
+                distanceType: parseInt($("#distanceType").val()),
+                fields: [
+                    $("#field1").val(),
+                    $("#field2").val(),
+                    $("#field3").val(),
+                    $("#field4").val(),
+                    $("#field5").val()
+                ]
+            };
 
             if ($SD && $SD.connection) {
-                let payload = {};
-                payload.automaticRefresh = automaticRefresh;
-
-                payload.apiKey = apiKey;
-
-                payload.distanceType = parseInt($("#distanceType option:selected").val());
-
-                payload.degreeType = parseInt($("#degreeType option:selected").val());
-
                 $SD.api.sendToPlugin(uuid, actionName, payload);
             }
         });
     });
 
     function openGithub() {
-        $SD.api.openUrl($SD.actionInfo.context, "https://github.com/f00d4tehg0dz/Teslafi-Status-Plugin-for-Eglato-Streamdeck")
+        $SD.api.openUrl($SD.actionInfo.context, "https://github.com/f00d4tehg0dz/Teslafi-Status-Plugin-for-Eglato-Streamdeck");
     }
-
 </script>
 
 </body>

@@ -1,0 +1,24 @@
+{
+    "title": "TeslaFi Plugin",
+    "api_key_label": "TeslaFI API Key",
+    "api_key_required_message": "API is required. Please check the instructions to see how you can obtain it.",
+    "automatic_refresh_label": "Automatic Refresh",
+    "temperature_unit_label": "Temperature Unit",
+    "distance_unit_label": "Distance Unit",
+    "field_1_label": "Field 1",
+    "field_2_label": "Field 2",
+    "field_3_label": "Field 3",
+    "field_4_label": "Field 4",
+    "field_options": {
+        "display_name": "Car Name",
+        "inside_temp": "Inside Temp",
+        "battery_range": "Battery Range",
+        "charging_state": "Charging State",
+        "outside_temp": "Outside Temp",
+        "odometer": "Odometer"
+    },
+    "instructions_label": "Instructions",
+    "instructions_text": "You can learn more about this plugin and how to obtain an API key by visiting its Github page by ",
+    "instructions_link_text": "clicking here.",
+    "update_button_text": "Update"
+}
