@@ -94,9 +94,9 @@ export function prepareStatusLines(result, fields, settings) {
                     : result.outside_temp;
                 return { text: outsideTemp !== null ? `${outsideTemp}°` : 'N/A', color: "#ff6b6b", icon: "temperature-icon" };
             case 'odometer':
-                const odometer = settings.distanceType === 0 
-                    ? Math.round(convertToMiles(result.odometer)) 
-                    : Math.round(result.odometer);
+                let odometer = settings.apiProvider === "teslafi"
+                    ? (settings.distanceType === 0 ? Math.round(result.odometer) : convertToKm(result.odometer))
+                    : (settings.distanceType === 0 ? Math.round(convertToMiles(result.odometer)) : Math.round(result.odometer));
                 return { text: odometer !== null ? `${odometer} ${settings.distanceType === 0 ? 'mi' : 'km'}` : 'N/A', color: "white", icon: "car-icon" };
             case 'est_battery_range':
                 let estBatteryRange = settings.apiProvider === "teslafi" 

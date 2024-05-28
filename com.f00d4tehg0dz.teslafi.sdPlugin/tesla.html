@@ -21,8 +21,8 @@
         <input class="sdpi-item-value" id="apiKey" required>
     </div>
     <div class="sdpi-item" id="teslamateUrlContainer" style="display: none;">
-        <div class="sdpi-item-label" id="teslamateUrlLabel">TeslaMate URL</div>
-        <input class="sdpi-item-value" id="teslamateUrl" required>
+        <div class="sdpi-item-label" id="teslamateUrlLabel" aria-placeholder="ex 192.168.xx.xx">TeslaMate URL</div>
+        <input class="sdpi-item-value" id="teslamateUrl" placeholder="ex 192.168.xx.xx" required>
     </div>
     <div class="sdpi-item" id="mqttUsernameContainer" style="display: none;">
         <div class="sdpi-item-label" id="mqttUsernameLabel">MQTT Username (Optional)</div>
@@ -56,7 +56,7 @@
             <option value="1">Km</option>
         </select>
     </div>
-    <div class="sdpi-item">
+    <div class="sdpi-item" id="batteryRangeTypeContainer" style="display: none;">
         <div class="sdpi-item-label" id="batteryRangeTypeLabel">Battery Range Type</div>
         <select class="sdpi-item-value select" id="batteryRangeType">
             <option value="ideal">Ideal</option>
@@ -199,13 +199,13 @@
                         $("#teslamateUrlContainer").show();
                         $("#mqttUsernameContainer").show();
                         $("#mqttPasswordContainer").show();
-                        $("#batteryRangeType").show();
+                        $("#batteryRangeTypeContainer").show();
                         $("#apiKeyContainer").hide();
                     } else {
                         $("#teslamateUrlContainer").hide();
                         $("#mqttUsernameContainer").hide();
                         $("#mqttPasswordContainer").hide();
-                        $("#batteryRangeType").hide();
+                        $("#batteryRangeTypeContainer").hide();
                         $("#apiKeyContainer").show();
                     }
                 }
@@ -259,13 +259,13 @@
                 $("#teslamateUrlContainer").show();
                 $("#mqttUsernameContainer").show();
                 $("#mqttPasswordContainer").show();
-                $("#batteryRangeType").show();
+                $("#batteryRangeTypeContainer").show();
                 $("#apiKeyContainer").hide();
             } else {
                 $("#teslamateUrlContainer").hide();
                 $("#mqttUsernameContainer").hide();
                 $("#mqttPasswordContainer").hide();
-                $("#batteryRangeType").hide();
+                $("#batteryRangeTypeContainer").hide();
                 $("#apiKeyContainer").show();
             }
         });

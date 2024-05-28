@@ -24,7 +24,7 @@ export function updateTeslaStatus(context, settings) {
         });
 
         const fieldsToShow = prepareStatusLines(completeResult, settings.fields.slice(0, 5), settings);
-        const allNA = fieldsToShow.every(line => line.text === 'N/A' || line.text === '0 mi' || line.text === '0 km' || line.text === '°');
+        const allNA = fieldsToShow.every(line => line.text === 'N/A' || line.text === 'NaN' || line.text === 'NaN°' || line.text === '0 mi' || line.text === '0 km' || line.text === '°');
 
         if (allNA || result.error) {
             const lastState = loadLastState(context);
