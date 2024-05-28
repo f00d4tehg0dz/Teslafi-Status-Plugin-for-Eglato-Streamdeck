@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8"/>
-    <title id="title">TeslaFi Plugin</title>
+    <title id="title">Tesla Status</title>
     <link rel="stylesheet" href="css/sdpi.css">
     <script src="js/jquery-3.3.1.js"></script>
     <script src="js/common.js"></script>
 </head>
-
 <body>
 <div class="sdpi-wrapper">
     <div class="sdpi-item">
-        <div class="sdpi-item-label" id="apiKeyLabel">TeslaFI API Key</div>
+        <div class="sdpi-item-label" id="apiProviderLabel">API Provider</div>
+        <select class="sdpi-item-value select" id="apiProvider">
+            <option value="teslafi">TeslaFi</option>
+            <option value="teslamate">TeslaMate</option>
+        </select>
+    </div>
+    <div class="sdpi-item" id="apiKeyContainer">
+        <div class="sdpi-item-label" id="apiKeyLabel">API Key</div>
         <input class="sdpi-item-value" id="apiKey" required>
+    </div>
+    <div class="sdpi-item" id="teslamateUrlContainer" style="display: none;">
+        <div class="sdpi-item-label" id="teslamateUrlLabel">TeslaMate URL</div>
+        <input class="sdpi-item-value" id="teslamateUrl" required>
+    </div>
+    <div class="sdpi-item" id="mqttUsernameContainer" style="display: none;">
+        <div class="sdpi-item-label" id="mqttUsernameLabel">MQTT Username (Optional)</div>
+        <input class="sdpi-item-value" id="mqttUsername">
+    </div>
+    <div class="sdpi-item" id="mqttPasswordContainer" style="display: none;">
+        <div class="sdpi-item-label" id="mqttPasswordLabel">MQTT Password (Optional)</div>
+        <input class="sdpi-item-value" id="mqttPassword" type="password">
     </div>
     <div class="sdpi-item" id="apiKeyValidationMessage" style="display: none">
         <details class="message caution">
@@ -37,6 +54,28 @@
         <select class="sdpi-item-value select" id="distanceType">
             <option value="0">Mi</option>
             <option value="1">Km</option>
+        </select>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label" id="batteryRangeTypeLabel">Battery Range Type</div>
+        <select class="sdpi-item-value select" id="batteryRangeType">
+            <option value="ideal">Ideal</option>
+            <option value="rated">Rated</option>
+        </select>
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label" id="vehicleLabel">Vehicle</div>
+        <select class="sdpi-item-value select" id="vehicle">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
         </select>
     </div>
     <div class="sdpi-item">
@@ -115,11 +154,18 @@
 
     $.getJSON("en.json", function(data) {
         $("#title").text(data.title);
+        $("#apiProviderLabel").text(data.api_provider_label);
         $("#apiKeyLabel").text(data.api_key_label);
+        $("#teslamateUrlLabel").text(data.teslamate_url_label);
+        $("#mqttUsernameLabel").text(data.mqtt_username_label);
+        $("#mqttPasswordLabel").text(data.mqtt_password_label);
         $("#apiKeyRequiredMessage").text(data.api_key_required_message);
         $("#automaticRefreshLabel").text(data.automatic_refresh_label);
         $("#temperatureUnitLabel").text(data.temperature_unit_label);
         $("#distanceUnitLabel").text(data.distance_unit_label);
+        $("#batteryRangeTypeLabel").text(data.battery_range_type_label);
+        $("#updateButton").text(data.update_button_text);
+        $("#vehicleLabel").text(data.vehicle_label);
         $("#field1Label").text(data.field_1_label);
         $("#field2Label").text(data.field_2_label);
         $("#field3Label").text(data.field_3_label);
@@ -147,8 +193,33 @@
                 }
                 const settings = jsonObj.actionInfo.payload.settings;
 
+                if (settings.apiProvider) {
+                    $("#apiProvider").val(settings.apiProvider);
+                    if (settings.apiProvider === "teslamate") {
+                        $("#teslamateUrlContainer").show();
+                        $("#mqttUsernameContainer").show();
+                        $("#mqttPasswordContainer").show();
+                        $("#batteryRangeType").show();
+                        $("#apiKeyContainer").hide();
+                    } else {
+                        $("#teslamateUrlContainer").hide();
+                        $("#mqttUsernameContainer").hide();
+                        $("#mqttPasswordContainer").hide();
+                        $("#batteryRangeType").hide();
+                        $("#apiKeyContainer").show();
+                    }
+                }
                 if (settings.apiKey) {
                     $("#apiKey").val(settings.apiKey);
+                }
+                if (settings.teslamateUrl) {
+                    $("#teslamateUrl").val(settings.teslamateUrl);
+                }
+                if (settings.mqttUsername) {
+                    $("#mqttUsername").val(settings.mqttUsername);
+                }
+                if (settings.mqttPassword) {
+                    $("#mqttPassword").val(settings.mqttPassword);
                 }
                 if (settings.degreeType) {
                     $("#degreeType").val(settings.degreeType);
@@ -158,6 +229,12 @@
                 }
                 if (settings.automaticRefresh) {
                     $("#automaticRefresh").prop("checked", true);
+                }
+                if (settings.batteryRangeType) {
+                    $("#batteryRangeType").val(settings.batteryRangeType);
+                }
+                if (settings.vehicle) {
+                    $("#vehicle").val(settings.vehicle);
                 }
                 if (settings.fields) {
                     $("#field1").val(settings.fields[0]);
@@ -170,21 +247,43 @@
         }
 
         $("#apiKey").on("blur", function () {
-            if (!$("#apiKey").val()) {
+            if (!$("#apiKey").val() && $("#apiProvider").val() === "teslafi") {
                 $("#apiKeyValidationMessage").show();
             } else {
                 $("#apiKeyValidationMessage").hide();
             }
         });
 
+        $("#apiProvider").on("change", function () {
+            if ($(this).val() === "teslamate") {
+                $("#teslamateUrlContainer").show();
+                $("#mqttUsernameContainer").show();
+                $("#mqttPasswordContainer").show();
+                $("#batteryRangeType").show();
+                $("#apiKeyContainer").hide();
+            } else {
+                $("#teslamateUrlContainer").hide();
+                $("#mqttUsernameContainer").hide();
+                $("#mqttPasswordContainer").hide();
+                $("#batteryRangeType").hide();
+                $("#apiKeyContainer").show();
+            }
+        });
+
         $("#updateButton").click(function () {
-            if (!$("#apiKey").val()) return;
+            if ($("#apiProvider").val() === "teslafi" && !$("#apiKey").val()) return;
 
             const payload = {
+                apiProvider: $("#apiProvider").val(),
                 apiKey: $("#apiKey").val(),
+                teslamateUrl: $("#teslamateUrl").val(),
+                mqttUsername: $("#mqttUsername").val(),
+                mqttPassword: $("#mqttPassword").val(),
+                batteryRangeType: $("#batteryRangeType").val(),
                 automaticRefresh: $("#automaticRefresh").prop("checked"),
                 degreeType: parseInt($("#degreeType").val()),
                 distanceType: parseInt($("#distanceType").val()),
+                vehicle: $("#vehicle").val(),
                 fields: [
                     $("#field1").val(),
                     $("#field2").val(),
@@ -206,5 +305,4 @@
 </script>
 
 </body>
-
 </html>
