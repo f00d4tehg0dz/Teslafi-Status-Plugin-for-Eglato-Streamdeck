@@ -115,8 +115,13 @@ export function prepareStatusLines(result, fields, settings) {
     });
 }
 
-export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mqttPassword, vehicle, context, callback) {
-    if (apiProvider === "teslafi") {
+export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mqttPassword, vehicle, context, callback, useTestJson = false) {
+    if (useTestJson) {
+        fetch('test.json')
+            .then(response => response.json())
+            .then(response => callback(response))
+            .catch(error => callback({error: error.message}));
+    } else if (apiProvider === "teslafi") {
         const endpoint = `https://www.teslafi.com/feed.php?token=${apiKey}`;
         $.getJSON(endpoint, {apikey: apiKey})
             .done(response => {
@@ -135,29 +140,29 @@ export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mq
                 }
             });
     } else if (apiProvider === "teslamate") {
-        console.log('Connecting to MQTT broker at:', teslamateUrl);
+        // console.log('Connecting to MQTT broker at:', teslamateUrl);
 
         const client = new Paho.MQTT.Client(teslamateUrl, Number(9001), "/mqtt", "clientId");
 
         client.onConnectionLost = function (responseObject) {
             if (responseObject.errorCode !== 0) {
-                console.log("onConnectionLost:", responseObject.errorMessage);
+                // console.log("onConnectionLost:", responseObject.errorMessage);
                 drawErrorMessage(context, "Connection Lost: " + responseObject.errorMessage);
             }
         };
 
         client.onMessageArrived = function (message) {
-            console.log('Message arrived: ', message.payloadString);
+            // console.log('Message arrived: ', message.payloadString);
             const field = message.destinationName.split('/')[3];
-            console.log('Field: ', field);
+            // console.log('Field: ', field);
 
             result[field] = message.payloadString;
             result.display_name = result.display_name || vehicle;
 
-            console.log('Current result object: ', result);
+            // console.log('Current result object: ', result);
 
             if (expectedFields.every(field => field in result)) {
-                console.log('All fields received, disconnecting client');
+                // console.log('All fields received, disconnecting client');
                 client.disconnect();
                 callback(result);
             } else {
@@ -167,15 +172,15 @@ export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mq
 
         const options = {
             onSuccess: function () {
-                console.log("Connected to MQTT broker");
+                // console.log("Connected to MQTT broker");
                 const topics = expectedFields.map(field => `teslamate/cars/${vehicle}/${field}`);
                 topics.forEach(topic => {
-                    console.log('Subscribing to topic:', topic);
+                    // console.log('Subscribing to topic:', topic);
                     client.subscribe(topic);
                 });
             },
             onFailure: function (message) {
-                console.log("Connection failed: " + message.errorMessage);
+                // console.log("Connection failed: " + message.errorMessage);
                 drawErrorMessage(context, "Connection Failed: " + message.errorMessage);
             },
             userName: mqttUsername,

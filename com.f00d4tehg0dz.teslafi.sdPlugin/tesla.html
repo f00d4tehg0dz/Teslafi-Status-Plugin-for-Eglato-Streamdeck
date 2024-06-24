@@ -32,6 +32,21 @@
         <div class="sdpi-item-label" id="mqttPasswordLabel">MQTT Password (Optional)</div>
         <input class="sdpi-item-value" id="mqttPassword" type="password">
     </div>
+    <div class="sdpi-item" id="vehicleContainer" style="display: none;">
+        <div class="sdpi-item-label" id="vehicleLabel">Vehicle</div>
+        <select class="sdpi-item-value select" id="vehicle">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+    </div>
     <div class="sdpi-item" id="apiKeyValidationMessage" style="display: none">
         <details class="message caution">
             <summary id="apiKeyRequiredMessage">API is required. Please check the instructions to see how you can obtain it.</summary>
@@ -61,21 +76,6 @@
         <select class="sdpi-item-value select" id="batteryRangeType">
             <option value="ideal">Ideal</option>
             <option value="rated">Rated</option>
-        </select>
-    </div>
-    <div class="sdpi-item">
-        <div class="sdpi-item-label" id="vehicleLabel">Vehicle</div>
-        <select class="sdpi-item-value select" id="vehicle">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
         </select>
     </div>
     <div class="sdpi-item">
@@ -141,7 +141,11 @@
     <div class="sdpi-item">
         <div class="sdpi-item-label" id="instructionsLabel">Instructions</div>
         <details class="sdpi-item-value">
-            <p id="instructionsText">You can learn more about this plugin and how to obtain an API key by visiting its Github page by <a href="#" onclick="openGithub()">clicking here.</a></p>
+            <p id="instructionsText">
+                <br>Select between TeslaFi or TeslaMate to begin viewing your Tesla vehicle data!
+                <br>TeslaFi requires the API key provided by TeslaFi, while TeslaMate requires your Websocket URL such as 192.168.xxx.xxx. <strong>Do note port is already provided as 9001</strong>.
+                <br>If you do not have websockets enabled for TeslaMate please go ahead and edit your no-auth.conf to enable websockets.
+                <br>You can learn more about this plugin and how to obtain an API key by visiting its Github page by <a href="#" onclick="openGithub()">clicking here.</a></p>
         </details>
     </div>
     <div class="sdpi-item">
@@ -200,12 +204,14 @@
                         $("#mqttUsernameContainer").show();
                         $("#mqttPasswordContainer").show();
                         $("#batteryRangeTypeContainer").show();
+                        $("#vehicleContainer").show();
                         $("#apiKeyContainer").hide();
                     } else {
                         $("#teslamateUrlContainer").hide();
                         $("#mqttUsernameContainer").hide();
                         $("#mqttPasswordContainer").hide();
                         $("#batteryRangeTypeContainer").hide();
+                        $("#vehicleContainer").hide();
                         $("#apiKeyContainer").show();
                     }
                 }
@@ -260,12 +266,14 @@
                 $("#mqttUsernameContainer").show();
                 $("#mqttPasswordContainer").show();
                 $("#batteryRangeTypeContainer").show();
+                $("#vehicleContainer").show();
                 $("#apiKeyContainer").hide();
             } else {
                 $("#teslamateUrlContainer").hide();
                 $("#mqttUsernameContainer").hide();
                 $("#mqttPasswordContainer").hide();
                 $("#batteryRangeTypeContainer").hide();
+                $("#vehicleContainer").hide();
                 $("#apiKeyContainer").show();
             }
         });

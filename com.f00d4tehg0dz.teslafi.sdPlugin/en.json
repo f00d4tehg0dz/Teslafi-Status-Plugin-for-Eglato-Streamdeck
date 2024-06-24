@@ -25,7 +25,7 @@
         "est_battery_range": "Est. Battery Range"
     },
     "instructions_label": "Instructions",
-    "instructions_text": "You can learn more about this plugin and how to obtain an API key by visiting its Github page by ",
+    "instructions_text": "Select between TeslaFi or TeslaMate to begin viewing your Tesla vehicle data! TeslaFi requires the API key provided by TeslaFi, while TeslaMate requires your Websocket URL such as 192.168.xxx.xxx. The port is already provided as 9001. If you do not have websockets enabled for TeslaMate please go ahead and edit your no-auth.conf to enable websockets. You can learn more about this plugin and how to obtain an API key by visiting its Github page by ",
     "instructions_link_text": "clicking here.",
     "update_button_text": "Update"
 }

@@ -3,7 +3,7 @@ import { initiateTeslaStatus, updateTeslaStatus, loadLastState } from './teslaSt
 let intervals = {};
 
 if ($SD) {
-    const actionName = "com.f00d4tehg0dz.teslastatus.action";
+    const actionName = "com.f00d4tehg0dz.teslafi.action";
 
     $SD.on("connected", () => console.log("Connected!"));
 

@@ -1,7 +1,7 @@
 let intervals = {};
 
 if ($SD) {
-    const actionName = "com.f00d4tehg0dz.teslastatus.action";
+    const actionName = "com.f00d4tehg0dz.teslafi.action";
 
     $SD.on("connected", () => console.log("Connected!"));
 
@@ -167,22 +167,22 @@ if ($SD) {
                     }
                 });
         } else if (apiProvider === "teslamate") {
-            console.log('Connecting to MQTT broker at:', teslamateUrl);
+            // console.log('Connecting to MQTT broker at:', teslamateUrl);
             
             const options = {};
             if (mqttUsername) {
                 options.username = mqttUsername;
-                console.log('Using MQTT Username:', mqttUsername);
+                // console.log('Using MQTT Username:', mqttUsername);
             }
             if (mqttPassword) {
                 options.password = mqttPassword;
-                console.log('Using MQTT Password:', mqttPassword);
+                // console.log('Using MQTT Password:', mqttPassword);
             }
     
             const client = mqtt.connect(teslamateUrl, options);
     
             client.on('connect', function () {
-                console.log('Connected to MQTT broker');
+                // console.log('Connected to MQTT broker');
                 const topics = [
                     `teslamate/cars/${vehicle}/display_name`,
                     `teslamate/cars/${vehicle}/inside_temp`,
@@ -195,7 +195,7 @@ if ($SD) {
                     `teslamate/cars/${vehicle}/est_battery_range`
                 ];
                 topics.forEach(topic => {
-                    console.log('Subscribing to topic:', topic);
+                    // console.log('Subscribing to topic:', topic);
                     client.subscribe(topic);
                 });
     

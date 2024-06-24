@@ -2,18 +2,18 @@
   "Actions": [
     {
       "Icon": "actions/template/assets/actionimage",
-      "Name": "Tesla Status",
+      "Name": "Tap for Updates",
       "States": [
         {
           "Image": "actions/template/assets/action",
           "TitleAlignment": "middle",
           "FontSize": "9",
-          "ShowTitle": true
+          "ShowTitle": false
         }
       ],
       "SupportedInMultiActions": false,
       "Tooltip": "Install me to view your Tesla data!",
-      "UUID": "com.f00d4tehg0dz.teslastatus.action"
+      "UUID": "com.f00d4tehg0dz.teslafi.action"
     }
   ],
   "SDKVersion": 2,
