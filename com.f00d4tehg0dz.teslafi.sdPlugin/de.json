@@ -19,6 +19,7 @@
         "display_name": "Autoname",
         "inside_temp": "Innere Temperatur",
         "battery_range": "Batteriereichweite",
+        "battery_level": "Batteriestand",
         "charging_state": "Ladestatus",
         "outside_temp": "Außentemperatur",
         "odometer": "Kilometerzähler",

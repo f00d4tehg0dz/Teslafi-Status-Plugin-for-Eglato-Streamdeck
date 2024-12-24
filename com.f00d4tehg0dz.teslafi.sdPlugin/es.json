@@ -19,6 +19,7 @@
         "display_name": "Nombre del Coche",
         "inside_temp": "Temperatura Interior",
         "battery_range": "Rango de Batería",
+        "battery_level": "Nivel de Batería",
         "charging_state": "Estado de Carga",
         "outside_temp": "Temperatura Exterior",
         "odometer": "Odómetro",

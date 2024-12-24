@@ -4,6 +4,7 @@ const expectedFields = [
     'inside_temp',
     'inside_tempF',
     'battery_range',
+    'battery_level',
     'ideal_battery_range_km',
     'rated_battery_range_km',
     'charging_state',
@@ -86,6 +87,20 @@ export function prepareStatusLines(result, fields, settings) {
                     batteryRange = settings.apiProvider === "teslafi" ? convertToKm(batteryRange) : batteryRange;
                 }
                 return { text: batteryRange !== null ? `${batteryRange} ${settings.distanceType === 0 ? 'mi' : 'km'}` : 'N/A', color: "#45b6fe", icon: "distance-icon" };
+            case 'battery_level':
+                let battery_level = settings.apiProvider === "teslafi" 
+                    ? result.usable_battery_level
+                    : result.battery_level;
+                const colorMap = {
+                    70: "#c7f464", // green
+                    50: "#45b6fe", // blue
+                    30: "#fffff", // white
+                    0: "#ff6b6b" // red
+                }
+                let levelZone = Object.keys(colorMap)
+                    .sort((a, b) => b - a)  // Sort keys in descending order
+                    .find(level => battery_level >= level) || 30;  // Find the first key that is less than or equal to battery_level
+                return { text: battery_level + '%' || 'N/A', color: colorMap[levelZone], icon: "battery-icon" };
             case 'charging_state':
                 return { text: result.charging_state || 'N/A', color: "#c7f464", icon: "charging-icon" };
             case 'outside_temp':
