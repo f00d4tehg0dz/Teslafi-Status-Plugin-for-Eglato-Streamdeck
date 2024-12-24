@@ -28,8 +28,36 @@ If you want to use TeslaFI
 Please ensure you have an active subscription with [TeslaFi](https://teslafi.com) and enable your API key.
 
 If you want to use TeslaMate
-Make sure you have the software installed locally [TeslaMate](https://github.com/teslamate-org/teslamate)
-Make sure to enable WebSockets in your `config.` Port 9001 is automatically inserted. 
+- Make sure you have the software installed locally [TeslaMate](https://github.com/teslamate-org/teslamate)
+- Make sure to enable WebSockets in your `config.` Port 9001 is automatically inserted.
+
+   >For docker user, you will need to add port and config file into your docker-compose.yml
+   >```yml
+   >mosquitto:
+   >  image: eclipse-mosquitto:2
+   >  container_name: "mosquitto"
+   >  restart: always
+   >  command: mosquitto -c /mosquitto-no-auth.conf
+   >  ports:
+   >    - "1883:1883"
+   >    - "9001:9001"
+   >  volumes:
+   >    - ./mosquitto-no-auth.conf:/mosquitto-no-auth.conf # Add `mosquitto-no-auth.conf` file and bind.
+   >    - mosquitto-conf:/mosquitto/config
+   >    - mosquitto-data:/mosquitto/data
+   >  ```
+   > The 9001 port must be opened, and websockets should be used.
+   >
+   > The content of `mosquitto-no-auth.conf` is as follows:
+   > ```bash
+   > listener 1883
+   > protocol mqtt
+   >
+   > listener 9001
+   > protocol websockets
+   >
+   > allow_anonymous true #Option
+   >```
 
 ### Configuration
 
