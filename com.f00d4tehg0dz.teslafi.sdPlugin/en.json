@@ -19,6 +19,7 @@
         "display_name": "Car Name",
         "inside_temp": "Inside Temp",
         "battery_range": "Battery Range",
+        "battery_level": "Battery Level",
         "charging_state": "Charging State",
         "outside_temp": "Outside Temp",
         "odometer": "Odometer",
