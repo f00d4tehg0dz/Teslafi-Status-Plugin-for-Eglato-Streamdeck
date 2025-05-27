@@ -131,6 +131,8 @@ export function prepareStatusLines(result, fields, settings) {
 }
 
 export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mqttPassword, vehicle, context, callback, useTestJson = false) {
+    // Move result inside the function for isolation
+    let result = {};
     if (useTestJson) {
         fetch('test.json')
             .then(response => response.json())
@@ -157,7 +159,7 @@ export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mq
     } else if (apiProvider === "teslamate") {
         // console.log('Connecting to MQTT broker at:', teslamateUrl);
 
-        const client = new Paho.MQTT.Client(teslamateUrl, Number(9001), "/mqtt", "clientId");
+        const client = new Paho.MQTT.Client(teslamateUrl, Number(9001), "/mqtt", "clientId-" + vehicle);
 
         client.onConnectionLost = function (responseObject) {
             if (responseObject.errorCode !== 0) {
