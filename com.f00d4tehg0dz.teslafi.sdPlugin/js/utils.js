@@ -15,6 +15,29 @@ const expectedFields = [
     'est_battery_range_km'
 ];
 
+// Track the live MQTT client per Stream Deck key (context) so we can tear down
+// the previous connection before opening a new one. Without this, a client from
+// an earlier refresh / vehicle change is never disconnected (see getTeslaData)
+// and keeps firing onMessageArrived, repainting the key with stale data — e.g.
+// flipping a multi-vehicle setup back to the default Vehicle 1.
+const activeMqttClients = {};
+
+function teardownMqttClient(context) {
+    const entry = activeMqttClients[context];
+    if (!entry) return;
+    if (entry.timer) {
+        clearTimeout(entry.timer);
+    }
+    try {
+        if (entry.client && entry.client.isConnected && entry.client.isConnected()) {
+            entry.client.disconnect();
+        }
+    } catch (e) {
+        // already disconnected / still connecting — nothing to clean up
+    }
+    delete activeMqttClients[context];
+}
+
 export function createCanvas() {
     const canvas = document.createElement('canvas');
     canvas.width = 144;
@@ -157,30 +180,37 @@ export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mq
                 }
             });
     } else if (apiProvider === "teslamate") {
-        // console.log('Connecting to MQTT broker at:', teslamateUrl);
+        // Tear down any previous connection for THIS key first. The old code
+        // created a new client on every refresh and only disconnected once ALL
+        // expectedFields arrived — so a stale client (e.g. from a previously
+        // selected vehicle, or a sleeping car that never delivers every field)
+        // lingered and kept firing onMessageArrived, repainting the key with old
+        // data and intermittently reverting it to the default Vehicle 1.
+        teardownMqttClient(context);
 
-        const client = new Paho.MQTT.Client(teslamateUrl, Number(9001), "/mqtt", "clientId-" + vehicle);
+        // Unique clientId per connection. "clientId-" + vehicle collides across
+        // refreshes and across keys on the same vehicle; the broker then drops one
+        // of the colliding connections, causing flapping.
+        const clientId = "streamdeck-" + vehicle + "-" + Date.now() + "-" +
+            Math.random().toString(16).slice(2, 8);
+        const client = new Paho.MQTT.Client(teslamateUrl, Number(9001), "/mqtt", clientId);
+        const entry = { client, timer: null };
+        activeMqttClients[context] = entry;
 
         client.onConnectionLost = function (responseObject) {
             if (responseObject.errorCode !== 0) {
-                // console.log("onConnectionLost:", responseObject.errorMessage);
                 drawErrorMessage(context, "Connection Lost: " + responseObject.errorMessage);
             }
+            teardownMqttClient(context);
         };
 
         client.onMessageArrived = function (message) {
-            // console.log('Message arrived: ', message.payloadString);
             const field = message.destinationName.split('/')[3];
-            // console.log('Field: ', field);
-
             result[field] = message.payloadString;
             result.display_name = result.display_name || vehicle;
 
-            // console.log('Current result object: ', result);
-
-            if (expectedFields.every(field => field in result)) {
-                // console.log('All fields received, disconnecting client');
-                client.disconnect();
+            if (expectedFields.every(f => f in result)) {
+                teardownMqttClient(context);
                 callback(result);
             } else {
                 callback(result);
@@ -189,16 +219,22 @@ export function getTeslaData(apiProvider, apiKey, teslamateUrl, mqttUsername, mq
 
         const options = {
             onSuccess: function () {
-                // console.log("Connected to MQTT broker");
                 const topics = expectedFields.map(field => `teslamate/cars/${vehicle}/${field}`);
-                topics.forEach(topic => {
-                    // console.log('Subscribing to topic:', topic);
-                    client.subscribe(topic);
-                });
+                topics.forEach(topic => client.subscribe(topic));
+
+                // Safety net: if the car is asleep or a topic has no retained
+                // value, expectedFields.every(...) never becomes true and the
+                // client would otherwise stay connected forever (the original
+                // leak). Force teardown after a grace period and render whatever
+                // arrived.
+                entry.timer = setTimeout(() => {
+                    teardownMqttClient(context);
+                    callback(result);
+                }, 4000);
             },
             onFailure: function (message) {
-                // console.log("Connection failed: " + message.errorMessage);
                 drawErrorMessage(context, "Connection Failed: " + message.errorMessage);
+                teardownMqttClient(context);
             },
             userName: mqttUsername,
             password: mqttPassword
