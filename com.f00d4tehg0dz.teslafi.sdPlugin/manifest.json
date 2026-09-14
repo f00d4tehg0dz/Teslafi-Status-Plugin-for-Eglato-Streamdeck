@@ -7,7 +7,7 @@
 				{
 					"Image": "actions/template/assets/action",
 					"TitleAlignment": "middle",
-					"FontSize": 9,
+					"FontSize": "9",
 					"ShowTitle": false
 				}
 			],
@@ -26,7 +26,7 @@
 	"Icon": "actions/template/assets/action",
 	"URL": "https://github.com/f00d4tehg0dz/Teslafi-Plugin-for-Eglato-Streamdeck",
 	"PropertyInspectorPath": "tesla.html",
-	"Version": "4.1.2.0",
+	"Version": "4.2.0.0",
 	"OS": [
 		{
 			"Platform": "mac",
